@@ -1,6 +1,6 @@
 # markdownlint-rule-math
 
-> A markdownlint rule that Math Blocks should be surrounded by blank lines
+> A markdownlint rule that Math Blocks should be surrounded by blank lines.
 
 
 ## Use
@@ -17,7 +17,7 @@ $$
 $$
 LineAfter
 `
-const config = { "default": true, strings: { content }, customRules: [MD101] }
+const config = { "default": true, strings: { content }, customRules: [ MD101 ] }
 
 async function main() {
     const lintError = await lint(config)
@@ -32,6 +32,18 @@ async function main() {
 
 main()
 ```
+
+
+
+## Use in Typora
+
+I have integrated this feature into [typora_plugin](https://github.com/obgnail/typora_plugin).
+
+
+
+![markdownlint-rule-math](./assets/markdownlint-rule-math.gif)
+
+
 
 ## References
 
