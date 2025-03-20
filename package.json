@@ -6,7 +6,7 @@
     "build.cjs": "esbuild math-surrounded-by-blank-lines.cjs --bundle --minify --outfile=dist/MD101.cjs.js --format=cjs --platform=node",
     "build.esm": "esbuild math-surrounded-by-blank-lines.cjs --bundle --minify --outfile=dist/MD101.esm.js --format=esm --platform=node"
   },
-  "author": "",
+  "author": "obgnail",
   "license": "MIT",
   "description": "A markdownlint rule that Math Blocks should be surrounded by blank lines",
   "dependencies": {

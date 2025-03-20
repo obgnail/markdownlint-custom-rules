@@ -6,9 +6,9 @@
 ## Use
 
 ```javascript
-import { lint } from "markdownlint/async"
+import { lint } from "markdownlint/promise"
 import { applyFixes } from "markdownlint"
-import MD101 from "./dist/MD101.esm"
+import MD101 from "./MD101.esm.js"
 
 const content = `
 LineBefore
@@ -17,20 +17,20 @@ $$
 $$
 LineAfter
 `
-const config = { "default": true, strings: { content }, customRules: [ MD101 ] }
+const config = { "default": true, strings: { content }, customRules: [MD101] }
 
-async function main() {
-    const lintError = await lint(config)
-    console.log(lintError)
-
-    console.log("-----")
-
-    const fixInfo = lintError.content
-    const fixed = applyFixes(content, fixInfo)
+lint(config).then(result => {
+    const fixed = applyFixes(content, result.content)
     console.log(fixed)
-}
+})
 
-main()
+// LineBefore
+//
+// $$
+// 1+2
+// $$
+//
+// LineAfter
 ```
 
 
