@@ -58,43 +58,51 @@ const MD101 = {
     }
 }
 
+function checkFullyEmphasize(token, headContentToken, onError) {
+    const isEmphasis = token.type === "emphasis"
+    const isStrong = token.type === "strong"
+
+    if (isEmphasis || isStrong) {
+        const type = isEmphasis ? "emphasisText" : "strongText"
+        const textToken = token.children.find(t => t.type === type)
+        if (textToken?.children.length === 1) {
+            checkFullyEmphasize(textToken.children[0], headContentToken, onError)
+            return
+        }
+        token = textToken
+    }
+
+    const column = headContentToken.startColumn
+    const length = headContentToken.endColumn - column
+    addErrorContext(
+        onError,
+        headContentToken.startLine,
+        headContentToken.text.trim(),
+        undefined,
+        undefined,
+        [column, length],
+        {
+            editColumn: column,
+            deleteCount: length,
+            insertText: token.text,
+        }
+    )
+}
+
 const MD102 = {
-    names: ["MD102", "no-entirely-strong-heading"],
-    description: "Heading text should not be entirely bold",
-    tags: ["headings", "atx", "atx_closed", "emphasis"],
+    names: ["MD102", "no-fully-emphasized-heading"],
+    description: "Headings should not be fully emphasized",
+    tags: ["headings", "emphasis", "strong"],
     parser: "micromark",
     "function": function MD102(params, onError) {
         const headings = filterByTypes(params.parsers.micromark.tokens, ["atxHeading"])
         for (const heading of headings) {
-            const headingTextToken = heading.children.find(e => e.type === "atxHeadingText")
+            const headingTextToken = heading.children.find(t => t.type === "atxHeadingText")
             if (!headingTextToken || headingTextToken.children.length !== 1) continue
 
-            let token = headingTextToken.children[0]
-            if (token.type === "emphasis") {
-                const emphasisText = token.children.find(e => e.type === "emphasisText")
-                if (emphasisText.children.length !== 1) continue
-                token = emphasisText.children[0]
-            }
-            if (token.type === "strong") {
-                const strongTextToken = token.children.find(e => e.type === "strongText")
-                if (!strongTextToken) continue
-
-                const text = strongTextToken.text
-                const column = token.startColumn
-                const length = token.endColumn - column
-                addErrorContext(
-                    onError,
-                    token.startLine,
-                    token.text.trim(),
-                    undefined,
-                    undefined,
-                    [column, length],
-                    {
-                        editColumn: column,
-                        deleteCount: length,
-                        insertText: text,
-                    }
-                )
+            const headContentToken = headingTextToken.children[0]
+            if (headContentToken.type === "emphasis" || headContentToken.type === "strong") {
+                checkFullyEmphasize(headContentToken, headContentToken, onError)
             }
         }
     }

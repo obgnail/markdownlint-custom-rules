@@ -1,14 +1,14 @@
 # markdownlint-custom-rules
 
 - MD101: Math Blocks should be surrounded by blank lines.
-- MD102: Heading text should not be entirely bold.
+- MD102: Headings should not be fully emphasized.
 
 ## Use
 
 ```javascript
 import { lint } from "markdownlint/promise"
 import { applyFixes } from "markdownlint"
-import [ MD101, MD102 ] from "./dist/customRules.mjs"
+import rules from "./dist/customRules.mjs"
 
 const content = `
 LineBefore
@@ -17,7 +17,7 @@ $$
 $$
 LineAfter
 `
-const config = { "default": true, strings: { content }, customRules: [MD101] }
+const config = { "default": true, strings: { content }, customRules: [ rules.MD101, rules.MD102 ] }
 
 lint(config).then(result => {
     const fixed = applyFixes(content, result.content)
