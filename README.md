@@ -1,14 +1,14 @@
-# markdownlint-rule-math
+# markdownlint-custom-rules
 
-> A markdownlint rule that Math Blocks should be surrounded by blank lines.
-
+- MD101: Math Blocks should be surrounded by blank lines.
+- MD102: Heading text should not be entirely bold.
 
 ## Use
 
 ```javascript
 import { lint } from "markdownlint/promise"
 import { applyFixes } from "markdownlint"
-import MD101 from "./MD101.esm.js"
+import [ MD101, MD102 ] from "./dist/customRules.mjs"
 
 const content = `
 LineBefore

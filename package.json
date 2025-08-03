@@ -1,10 +1,10 @@
 {
-  "name": "markdownlint-rule-math",
+  "name": "markdownlint-custom-rules",
   "version": "1.0.0",
-  "main": "math-surrounded-by-blank-lines.cjs",
+  "main": "rules.cjs",
   "scripts": {
-    "build.cjs": "esbuild math-surrounded-by-blank-lines.cjs --bundle --minify --outfile=dist/MD101.cjs.js --format=cjs --platform=node",
-    "build.esm": "esbuild math-surrounded-by-blank-lines.cjs --bundle --minify --outfile=dist/MD101.esm.js --format=esm --platform=node"
+    "build.cjs": "esbuild rules.cjs --bundle --minify --outfile=dist/customRules.cjs --format=cjs --platform=node",
+    "build.mjs": "esbuild rules.cjs --bundle --minify --outfile=dist/customRules.mjs --format=esm --platform=node"
   },
   "author": "obgnail",
   "license": "MIT",
