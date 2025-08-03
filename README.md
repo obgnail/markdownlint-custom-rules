@@ -17,7 +17,7 @@ $$
 $$
 LineAfter
 `
-const config = { "default": true, strings: { content }, customRules: [ rules.MD101, rules.MD102 ] }
+const config = { "default": true, strings: { content }, customRules: rules }
 
 lint(config).then(result => {
     const fixed = applyFixes(content, result.content)
