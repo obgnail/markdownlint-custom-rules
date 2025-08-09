@@ -74,18 +74,15 @@ function checkFullyEmphasize(token, headContentToken, onError) {
 
     const column = headContentToken.startColumn
     const length = headContentToken.endColumn - column
+    const fixInfo = token ? { editColumn: column, deleteCount: length, insertText: token.text } : undefined
     addErrorContext(
         onError,
         headContentToken.startLine,
         headContentToken.text.trim(),
-        undefined,
-        undefined,
+        true,
+        true,
         [column, length],
-        {
-            editColumn: column,
-            deleteCount: length,
-            insertText: token.text,
-        }
+        fixInfo,
     )
 }
 
@@ -94,7 +91,7 @@ const MD102 = {
     description: "Headings should not be fully emphasized",
     tags: ["headings", "emphasis", "strong"],
     parser: "micromark",
-    "function": function MD102(params, onError) {
+    "function": (params, onError) => {
         const headings = filterByTypes(params.parsers.micromark.tokens, ["atxHeading"])
         for (const heading of headings) {
             const headingTextToken = heading.children.find(t => t.type === "atxHeadingText")
@@ -108,4 +105,4 @@ const MD102 = {
     }
 }
 
-module.exports = [MD101, MD102]
+module.exports = { MD101, MD102 }
